@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>calculatrice</title>
+</head>
+
+<body>
+
+    <form  class="all">
+        <input type="text" name="affichage" id="aff" >
+        <br>
+        <div class="btns">
+        <button id="val1" value="1" class="btn">1</button>
+        <button id="val2" value="2" class="btn">2</button>
+        <button id="val3" value="3" class="btn">3</button>
+        <button id="op" value="+" class="opt-style">+</button>
+        <br>
+        <button id="val4" value="4" class="btn">4</button>
+        <button id="val5" value="5" class="btn">5</button>
+        <button id="val6" value="6" class="btn">6</button>
+        <button id="op" value="-" class="opt-style">-</button>
+        <br>
+        <button id="val7" value="7" class="btn">7</button>
+        <button id="val8" value="8" class="btn">8</button>
+        <button id="val9" value="9" class="btn">9</button>
+        <button id="val0" value="0" class="btn">0</button>
+        <br>
+        <button id="dot" value="." class="btn">.</button>
+        <button id="op" value="/" class="opt-style">/</button>
+        <button id="op" value="*" class="opt-style">*</button>
+        <button id="supp" value="c">Del</button>
+        <br>
+        <button id="rlt" value="=" >=</button>
+    </div>
+    </form>
+
+
+
+    <script>
+        btn = document.querySelectorAll('.btn');
+        //btn = document.getElementById('val1')
+        //opt = document.getElementById('op');
+        opt = document.querySelectorAll('.opt-style');
+        rlt = document.getElementById('rlt');
+        aff = document.getElementById('aff');
+        btn_delete = document.getElementById('supp');
+        val1 = '';
+        val2 = '';
+        op = '';
+
+        btn.forEach(elt => {
+
+            elt.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (op == '') {
+                    aff.value = '';
+                    val1 = val1 + e.target.value; //val1 = val1 + ''
+                    aff.value = aff.value + val1;
+                    console.log(`val1 = ${val1}`);
+                } else {
+                    val2 = val2 + e.target.value;
+                    aff.value = aff.value + val2;
+                    console.log(`val2 = ${val2}`);
+                }
+            })
+        });
+
+
+        /*btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (op == '') {
+                aff.value = '';
+                val1 = val1 + e.target.value; //val1 = val1 + ''
+                aff.value = aff.value + val1;
+                console.log(`val1 = ${val1}`);
+            } else {
+                val2 = val2 + e.target.value;
+                aff.value = aff.value + val2;
+                console.log(`val2 = ${val2}`, aff.value);
+            }
+        })*/
+
+        //operation +, -, /, *
+
+        opt.forEach(elt => {
+            elt.addEventListener('click', (e) => {
+                e.preventDefault();
+                op = e.target.value;
+                aff.value = aff.value + op;
+                console.log(op);
+            })
+        });
+        /*opt.addEventListener('click', (e) => {
+            e.preventDefault();
+            op = e.target.value;
+            aff.value = aff.value + op;
+            console.log(op);
+        })*/
+
+
+        //Résultat
+        rlt.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (op == '+') {
+                (val1.split('').includes('.') ) ? result = parseFloat(val1) + parseInt(val2) :
+                result = parseInt(val1) + parseInt(val2);
+            }
+            else if (op == '-') {
+                result = parseInt(val1) - parseInt(val2);
+            }
+            else if (op == '*') {
+                result = parseInt(val1) * parseInt(val2);
+            }
+            else if (op == '/') {
+                result = parseInt(val1) / parseInt(val2);
+            }
+            //result = parseInt(val1) + parseInt(val2);
+            //result = eval(val1+op+val2);
+            console.log(result);
+            aff.value = aff.value + '= ' + result;
+            val1 = '';
+            val2 = '';
+            op = '';
+        })
+
+
+
+
+        btn_delete.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (aff.value.split('').includes('=')) {
+                aff.value = '';
+                val1 = '';
+                val2 = '';
+                op = '';
+            } else {
+                if (val2.toString() !== '') {
+                    len = val2.toString().length;
+                    console.log(`val2 = ${val2.toString().slice(0, len - 1)}` );
+                    val2 = val2.toString().slice(0, len - 1);
+                    aff.value = val1 +op +val2;
+                }
+                else if (op.toString() !== '') {
+                    len = op.toString().length;
+                    console.log(`op = ${op.toString().slice(0, len - 1)}` );
+                    op = op.toString().slice(0, len - 1);
+                    aff.value = val1 +op;
+                }
+                if (val1.toString() !== '') {
+                    len = val1.toString().length;
+                    console.log(`val1 = ${val1.toString().slice(0, len - 1)}` );
+                    val1 = val1.toString().slice(0, len - 1);
+                    aff.value = val1;
+                }
+            }
+            /*len = result.toString().length;
+            console.log(result.toString().slice(0, len-1));
+            result =result.toString().slice(0, len-1) ;*/
+
+        })
+    </script>
+
+
+
+
+
+
+
+    <style>
+        body{
+    background-image: linear-gradient(to right,#00AAFF,#00FF6C);
+
+        }
+        .all{
+            width: 30%;
+            height: 200px;
+            margin-top: 10%;
+            margin-left: 35%;
+            background-color: rgba(0, 0, 0, 0.411);
+            padding-top: 2%;
+            padding-left: 5%;
+            padding-bottom: 2%;
+
+        }
+        #aff{
+            width:80%;
+            height: 30px;
+            border: none;
+        }
+
+
+        .btns{
+           margin-top: 5%;
+
+        }
+        .btn{
+            width: 20%;
+            height: 30px;
+            cursor: pointer;
+        }
+        .opt-style{
+            width: 20%;
+            height: 30px;
+        }
+        #supp{
+            width: 20%;
+            height: 30px;
+        }
+        #rlt{
+            width: 84%;
+            height: 30px;
+        }
+    </style>
+
+</body>
+
+</html>
